@@ -9,7 +9,7 @@ IncludeDir["BOOST"] = "%{BOOST_SDK}"
 workspace "Calculator"
     configurations {"Debug", "Release"}
     project "Calculator"
-        kind "ConsoleApp"
+        kind "WindowedApp"
         language "C++"
         cppdialect "C++17"
         targetdir "bin/"
@@ -24,7 +24,6 @@ workspace "Calculator"
             "ext/glfw/include",
             "%{IncludeDir.VulkanSDK}/Include",
             "%{IncludeDir.glm}",
-            "%{IncludeDir.BOOST}"
         }
 
         links {
