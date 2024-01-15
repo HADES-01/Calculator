@@ -9,8 +9,8 @@ namespace Calculator
 {
     static std::unordered_map<std::string, ImFont *> m_FontMap;
     typedef std::pair<std::string, ImGuiKey> KEY;
-    static ImColor DARK_BUTTON(40, 40, 40);
-    static ImColor LIGHT_BUTTON(60, 60, 61);
+    static ImColor DARK_BUTTON(60, 60, 60);
+    static ImColor LIGHT_BUTTON(90, 90, 91);
     static std::vector<KEY> NUM_KEYS = std::vector<KEY>({
         {"0", ImGuiKey_Keypad0},
         {"1", ImGuiKey_Keypad1},
@@ -51,10 +51,12 @@ namespace Calculator
             if (focused || (mousePos.x > topLeft.x && mousePos.x < bottomRight.x && mousePos.y > topLeft.y && mousePos.y < bottomRight.y))
             {
                 m_DrawList->AddRectFilled(topLeft, bottomRight, (dark ? DARK_BUTTON : LIGHT_BUTTON), 10);
-                if(ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
-                    if(key.first[0] >= '0' && key.first[0] <= '9')
+                if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+                {
+                    if (key.first[0] >= '0' && key.first[0] <= '9')
                         m_Calc.OnNumKeyPressed(key.first);
-                    else m_Calc.OnSpecialKeyPressed(key.first);
+                    else
+                        m_Calc.OnSpecialKeyPressed(key.first);
                 }
             }
             else
@@ -78,16 +80,17 @@ namespace Calculator
             ImVec2 region = ImGui::GetMainViewport()->Size;
 
             ImVec2 text_pos = pos1;
-            text_pos.x += 10;
-            text_pos.y += region.y - m_GridSize * 5 - 30 ;
+            text_pos.x += region.x - 20;
+            text_pos.y += region.y - m_GridSize * 5 - 30;
             m_DrawList->AddText(
-                text_pos,
-                ImColor(210, 210, 210),
+                ImGui::GetFont(), 30,
+                ImVec2(text_pos.x - ImGui::GetFont()->CalcTextSizeA(30, region.x, region.x, m_Calc.GetExpression().c_str()).x, text_pos.y),
+                ImColor(190, 190, 190),
                 m_Calc.GetExpression().c_str());
 
             m_DrawList->AddText(
                 ImGui::GetFont(), 60,
-                ImVec2(text_pos.x , text_pos.y + 40),
+                ImVec2(text_pos.x -  ImGui::GetFont()->CalcTextSizeA(60, region.x, region.x, m_Calc.GetOperand2().c_str()).x, text_pos.y + 40),
                 ImColor(255, 255, 255),
                 m_Calc.GetOperand2().c_str(), nullptr, pos1.x + region.x);
 

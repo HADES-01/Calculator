@@ -629,7 +629,7 @@ namespace Calculator
                                     ImGui::GetCursorScreenPos().y + titlebarHeight};
         auto *bgDrawList = ImGui::GetBackgroundDrawList();
         auto *fgDrawList = ImGui::GetForegroundDrawList();
-        bgDrawList->AddRectFilled(titlebarMin, titlebarMax, ImColor(13, 13, 13));
+        bgDrawList->AddRectFilled(titlebarMin, titlebarMax, ImColor(50, 50, 50));
         // DEBUG TITLEBAR BOUNDS
         // fgDrawList->AddRect(titlebarMin, titlebarMax, ImColor(255,53,53));
 
@@ -643,12 +643,12 @@ namespace Calculator
         // 	fgDrawList->AddImage(m_AppHeaderIcon->GetDescriptorSet(), logoRectStart, logoRectMax);
         // }
 
-        ImGui::BeginHorizontal("Titlebar", {ImGui::GetWindowWidth() - windowPadding.y * 2.0f, ImGui::GetFrameHeightWithSpacing()});
+        // ImGui::BeginHorizontal("Titlebar", {ImGui::GetWindowWidth() - windowPadding.y * 2.0f, ImGui::GetFrameHeightWithSpacing()});
 
         static float moveOffsetX;
         static float moveOffsetY;
         const float w = ImGui::GetContentRegionAvail().x;
-        const float buttonsAreaWidth = 94;
+        const float buttonsAreaWidth = 40;
 
         // Title bar drag area
         // On Windows we hook into the GLFW win32 window internals
@@ -658,6 +658,14 @@ namespace Calculator
         ImGui::InvisibleButton("#titleBarDragZone", ImVec2(w - buttonsAreaWidth, titlebarHeight));
         
         m_TitleBarHovered = ImGui::IsItemHovered();
+        ImGui::SetCursorPos(ImVec2(windowPadding.x + w - buttonsAreaWidth, windowPadding.y)); // Reset cursor pos
+        // DEBUG DRAG BOUNDS
+        // fgDrawList->AddRect(ImGui::GetCursorScreenPos(), ImVec2(ImGui::GetCursorScreenPos().x + buttonsAreaWidth, ImGui::GetCursorScreenPos().y + titlebarHeight), ImColor(255, 53, 53));
+        ImGui::PushStyleColor(ImGuiCol_Button, ImColor(255,53,53).Value);
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImColor(255,13,13).Value);
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImColor(255,73,73).Value);
+        if(ImGui::Button("X", ImVec2(buttonsAreaWidth, titlebarHeight))) m_Running = false;
+        ImGui::PopStyleColor(3);
 
 
         if (isMaximized)
@@ -688,7 +696,7 @@ namespace Calculator
             // Centered Window title
             ImVec2 currentCursorPos = ImGui::GetCursorPos();
             ImVec2 textSize = ImGui::CalcTextSize(m_Specification.Name.c_str());
-            ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() * 0.5f - textSize.x * 0.5f, 2.0f + windowPadding.y + 6.0f));
+            ImGui::SetCursorPos(ImVec2((ImGui::GetWindowWidth() - buttonsAreaWidth) * 0.5f - textSize.x * 0.5f, 2.0f + windowPadding.y + 6.0f));
             ImGui::Text("%s", m_Specification.Name.c_str()); // Draw title
             ImGui::SetCursorPos(currentCursorPos);
         }
@@ -754,7 +762,7 @@ namespace Calculator
         // }
 
         // ImGui::Spring(-1.0f, 18.0f);
-        ImGui::EndHorizontal();
+        // ImGui::EndHorizontal();
 
         outTitlebarHeight = titlebarHeight;
     }
