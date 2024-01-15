@@ -508,7 +508,7 @@ namespace Calculator
             err = vkBeginCommandBuffer(command_buffer, &begin_info);
             check_vk_result(err);
 
-            ImGui_ImplVulkan_CreateFontsTexture();
+            ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
 
             VkSubmitInfo end_info = {};
             end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -521,7 +521,7 @@ namespace Calculator
 
             err = vkDeviceWaitIdle(g_Device);
             check_vk_result(err);
-            // ImGui_ImplVulkan_DestroyFontUploadObjects();
+            ImGui_ImplVulkan_DestroyFontUploadObjects();
         }
     }
 
