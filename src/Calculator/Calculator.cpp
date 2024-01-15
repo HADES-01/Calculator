@@ -9,7 +9,7 @@ namespace Calculator
 {
     static std::unordered_map<std::string, ImFont *> m_FontMap;
     typedef std::pair<std::string, ImGuiKey> KEY;
-    static ImColor DARK_BUTTON(50, 50, 50);
+    static ImColor DARK_BUTTON(40, 40, 40);
     static ImColor LIGHT_BUTTON(60, 60, 61);
     static std::vector<KEY> NUM_KEYS = std::vector<KEY>({
         {"0", ImGuiKey_Keypad0},
@@ -73,7 +73,7 @@ namespace Calculator
 
         void CreateGrid()
         {
-            m_DrawList = ImGui::GetBackgroundDrawList();
+            m_DrawList = ImGui::GetForegroundDrawList();
             ImVec2 pos1 = ImGui::GetMainViewport()->Pos;
             ImVec2 region = ImGui::GetMainViewport()->Size;
 

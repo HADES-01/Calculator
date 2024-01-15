@@ -24,6 +24,7 @@ namespace Calculator
         void Destroy();
         void RenderLayer();
         ~Application();
+        void UI_DrawTitlebar(float& outTitlebarHeight);
 
     private:
         bool m_Running;
