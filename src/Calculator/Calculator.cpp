@@ -7,7 +7,6 @@
 
 namespace Calculator
 {
-    static std::unordered_map<std::string, ImFont *> m_FontMap;
     typedef std::pair<std::string, ImGuiKey> KEY;
     static ImColor DARK_BUTTON(60, 60, 60);
     static ImColor LIGHT_BUTTON(90, 90, 91);

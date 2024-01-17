@@ -31,6 +31,7 @@ namespace Calculator
         ApplicationSpec m_Specification;
         VkResult m_Err;
         GLFWwindow *m_Window;
-        CalculatorScreen m_Calculator;
+        CalculatorScreen m_Calculator; 
+        std::unordered_map<std::string, ImFont *> m_FontMap;
     };
 }
