@@ -22,6 +22,7 @@ workspace "Calculator"
             "src/",
             "ext/imgui/",
             "ext/glfw/include",
+            "ext/stb",
             "%{IncludeDir.VulkanSDK}/Include",
             "%{IncludeDir.glm}",
         }

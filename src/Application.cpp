@@ -1,21 +1,23 @@
-#include "imgui.h"
-#include "imgui_internal.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_vulkan.h"
+#include "imgui.h"
+#include "imgui_internal.h"
 #include <stdio.h>  // printf, fprintf
 #include <stdlib.h> // abort
 #define GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#include <vulkan/vulkan.h>
-#include <vector>
 #include <functional>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+#include <vector>
+#include <vulkan/vulkan.h>
 
 #include "Application.h"
 
 #include "../misc/fonts/Droid.embed"
-#include "../misc/fonts/Salsa.embed"
 #include "../misc/fonts/Roboto-Medium.embed"
+#include "../misc/fonts/Salsa.embed"
 #include <iostream>
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
@@ -432,6 +434,13 @@ namespace Calculator
         VkResult err = glfwCreateWindowSurface(g_Instance, m_Window, g_Allocator, &surface);
         check_vk_result(err);
 
+        {
+            GLFWimage image;
+            image.pixels = stbi_load("../images/calc.png", &image.width, &image.height, 0, 4);
+            glfwSetWindowIcon(m_Window, 1, &image);
+            stbi_image_free(image.pixels);
+        }
+
         // Create Framebuffers
         int w, h;
         glfwGetFramebufferSize(m_Window, &w, &h);
@@ -521,7 +530,7 @@ namespace Calculator
 
             err = vkDeviceWaitIdle(g_Device);
             check_vk_result(err);
-//            ImGui_ImplVulkan_DestroyFontUploadObjects();
+            //            ImGui_ImplVulkan_DestroyFontUploadObjects();
         }
     }
 
@@ -656,17 +665,17 @@ namespace Calculator
         // DEBUG DRAG BOUNDS
         // fgDrawList->AddRect(ImGui::GetCursorScreenPos(), ImVec2(ImGui::GetCursorScreenPos().x + w - buttonsAreaWidth, ImGui::GetCursorScreenPos().y + titlebarHeight), ImColor(255, 53, 53));
         ImGui::InvisibleButton("#titleBarDragZone", ImVec2(w - buttonsAreaWidth, titlebarHeight));
-        
+
         m_TitleBarHovered = ImGui::IsItemHovered();
         ImGui::SetCursorPos(ImVec2(windowPadding.x + w - buttonsAreaWidth, windowPadding.y)); // Reset cursor pos
         // DEBUG DRAG BOUNDS
         // fgDrawList->AddRect(ImGui::GetCursorScreenPos(), ImVec2(ImGui::GetCursorScreenPos().x + buttonsAreaWidth, ImGui::GetCursorScreenPos().y + titlebarHeight), ImColor(255, 53, 53));
-        ImGui::PushStyleColor(ImGuiCol_Button, ImColor(255,53,53).Value);
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImColor(255,13,13).Value);
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImColor(255,73,73).Value);
-        if(ImGui::Button("X", ImVec2(buttonsAreaWidth, titlebarHeight))) m_Running = false;
+        ImGui::PushStyleColor(ImGuiCol_Button, ImColor(255, 53, 53).Value);
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImColor(255, 13, 13).Value);
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImColor(255, 73, 73).Value);
+        if (ImGui::Button("X", ImVec2(buttonsAreaWidth, titlebarHeight)))
+            m_Running = false;
         ImGui::PopStyleColor(3);
-
 
         if (isMaximized)
         {
